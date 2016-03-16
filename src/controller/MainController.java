@@ -19,6 +19,7 @@ public class MainController {
 		setSystemLookAndFeel();
 		networkController = new NetworkController();
 		RuntimeVariables.saveVariable(Variable.MAIN_CONTROLLER, this);
+		RuntimeVariables.saveVariable(Variable.CONFIGURATION_CONTROLLER, new ConfigurationController());
 	}
 
 	private void setSystemLookAndFeel() throws Exception {

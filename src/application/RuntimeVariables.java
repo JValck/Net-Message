@@ -7,7 +7,7 @@ public class RuntimeVariables {
 	private static Map<Variable ,Object> variables = new HashMap<>();
 	
 	public enum Variable{
-		INTERFACE_NAME, MAIN_CONTROLLER, NETWORK_CONTROLLER, RECEIVING_IP_ADDRESS, RECEIVED_MESSAGE;
+		INTERFACE_NAME, MAIN_CONTROLLER, NETWORK_CONTROLLER, RECEIVING_IP_ADDRESS, RECEIVED_MESSAGE, CONFIGURATION_CONTROLLER;
 	}
 	
 	public static void saveVariable(Variable variable, Object value) {

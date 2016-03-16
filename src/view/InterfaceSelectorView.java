@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 
 import controller.NetworkController;
 import view.listener.InterfaceButtonClickListener;
+import view.partial.MenuPartial;
 
 public class InterfaceSelectorView implements Viewable {
 
@@ -33,7 +34,12 @@ public class InterfaceSelectorView implements Viewable {
 		rootPanel.setLayout(new BorderLayout());
 		createNetwokPanel();
 		createSelectionPanel();
+		createMenuPanel();
+	}
 
+	private void createMenuPanel() {
+		rootPanel.add(new MenuPartial(), BorderLayout.NORTH);
+		
 	}
 
 	private void createSelectionPanel() {
@@ -69,7 +75,7 @@ public class InterfaceSelectorView implements Viewable {
 		networkPanel.setBorder(BorderFactory.createTitledBorder("Netwerk Info"));
 		JLabel interfacesLabel = new JLabel("Netwerk interfaces: "+ networkController.getNetworkInterfaceCount());
 		networkPanel.add(interfacesLabel);
-		rootPanel.add(networkPanel, BorderLayout.NORTH);
+		rootPanel.add(networkPanel, BorderLayout.SOUTH);
 	}
 
 	@Override
