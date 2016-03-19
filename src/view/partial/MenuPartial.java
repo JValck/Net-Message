@@ -9,6 +9,7 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import view.listener.menu.CloseMenuItemClicked;
+import view.listener.menu.DynamicIPMenuItemClicked;
 import view.listener.menu.StaticIPMenuItemClicked;
 
 public class MenuPartial extends JMenuBar{
@@ -42,6 +43,7 @@ public class MenuPartial extends JMenuBar{
 		configurationMenu.getAccessibleContext().setAccessibleDescription("Configureer de Ethernet adapter");
 		
 		addStaticIPMenuItem();
+		addDHCPMenuItem();
 		
 		this.add(configurationMenu);
 	}
@@ -54,4 +56,12 @@ public class MenuPartial extends JMenuBar{
 		configurationMenu.add(staticIPEthernetMenuItem);
 	}
 
+	private void addDHCPMenuItem() {
+		JMenuItem staticIPEthernetMenuItem = new JMenuItem("Dynamisch IP-adres");
+		staticIPEthernetMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
+		staticIPEthernetMenuItem.getAccessibleContext().setAccessibleDescription("Dynamisch IP-adres gebruiken");
+		staticIPEthernetMenuItem.addActionListener(new DynamicIPMenuItemClicked());
+		configurationMenu.add(staticIPEthernetMenuItem);
+	}
+	
 }

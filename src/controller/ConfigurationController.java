@@ -44,4 +44,19 @@ public class ConfigurationController {
 		}
 	}
 
+	public void setDynamicIPAddress() throws IOException, InterruptedException {
+		switch (determineOs()) {
+		case WINDOWS:
+			EthernetInterfaceIPSetter iSetter = new WindowsEthernetInterfaceIPSetter();
+			iSetter.setDynamicIP();
+			break;
+		case LINUX:
+	
+			break;
+		default:
+			//TODO: mac
+			break;
+		}
+	}
+
 }
