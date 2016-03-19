@@ -1,14 +1,58 @@
-#START FUNCTIONS
-function ChangeIP($interfaceName){
-    Write-Host("Current IP-configuration \n -----------------------------")
-    netsh interface ipv4 show addresses $interfaceName
-    Write-Host("Updating IP-address")
-    for($suffix = 50; $suffix -le 60; $suffix++){
-        $ip = "192.168.2."+$suffix
-        if(!($occupiedIPs -contains $ip)){
-            netsh interface ipv4 set address name=$interfaceName source=static address=$ip mask=255.255.255.0
+#-------CHECK PARAMETERS-----------
+param(
+    [string]$setStatic = $(Read-Host "Change IP-address to static? [Y/N]")
+)
+#-------END CHECK PARAMETERS-------
+
+
+#-------START FUNCTIONS------------
+function pingNetwork(){
+    #start scanning the range from 192.168.2.50 to 192.168.2.60
+    Write-Host("Scanning network...")
+    for($idx = 50; $idx -le 60; $idx++){
+        ping -n 1 192.168.2.$idx
+        $pingedIp = "192.168.2."+$idx
+        $ip = arp -a | select-string $pingedIp |% { $_.ToString().Trim().Split(" ")[0] }
+        if($ip){
+            $occupiedIPs+=$ip
         }
     }
+}
+
+function GiveStaticIP($interfaceName){
+    pingNetwork
+    for($suffix = 50; $suffix -le 60; $suffix++){
+        $ip = "192.168.2."+$suffix
+        if($occupiedIPs -contains $ip){
+            if($suffix -eq 60){
+                Write-Error "No IP-address available"
+                break
+            }else{
+                continue
+            }
+        }else{
+            netsh interface ipv4 set address name=`"$interfaceName`" source=static address=$ip mask=255.255.255.0 gateway=0.0.0.0
+            break
+        }
+    }
+}
+
+function GiveDynamicIP($interfaceName){
+    netsh interface ipv4 set address name=`"$interfaceName`" source=dhcp
+}
+
+function ChangeIP($interfaceName){
+    Write-Host("Current IP-configuration `n------------------------")
+    netsh interface ipv4 show addresses $interfaceName
+    Write-Host("Updating IP-address")
+    if($toStatic -eq $true){
+        GiveStaticIP($interfaceName)
+    }else{
+        GiveDynamicIP($interfaceName)
+    }    
+    Write-Host("New IP-configuration `n--------------------")
+    netsh interface ipv4 show addresses $interfaceName
+    Write-Host("DONE!")
 }
 
 function Windows10(){
@@ -17,49 +61,45 @@ function Windows10(){
     ChangeIP "Ethernet"
 }
 
-#END FUNCTIONS
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Write-Host("Starting IP Configuration...")
-
-#start scanning the range from 192.168.2.50 to 192.168.2.60
-Write-Host("Scanning network...")
-$occupiedIPs = @()
-
-for($idx = 50; $idx -le 60; $idx++){
-    ping -n 1 192.168.2.$idx
-    $pingedIp = "192.168.2."+$idx
-    $ip = arp -a | select-string $pingedIp |% { $_.ToString().Trim().Split(" ")[0] }
-    if($ip){
-        $occupiedIPs+=$ip
+function Windows7(){
+    if($language -eq "nl"){
+        ChangeIP("LAN-verbinding")
+    }elseif($language -eq "en"){
+        ChangeIP("Local Area Connection")
     }
 }
 
+function Windows8(){
+    Windows7
+}
+
+function Windows8_1(){
+    Windows7
+}
+
+function CheckInputParams(){
+
+}
+#-----END FUNCTIONS----------
+
+
+#Convert parameter to boolean
+$toStatic = $false
+if($setStatic -eq "Y" -or $setStatic -eq "y"){
+    $toStatic = $true
+}
+$occupiedIPs = @()
 $language = Get-UICulture | select Name |% {$_.Name}
 $language = $language.Substring(0,2)
 
+
+Write-Host("Starting IP Configuration...")
 if([Environment]::OSVersion.Version -eq (new-object 'Version' 6,1)){
-
+    Windows7
 } elseif ([Environment]::OSVersion.Version -eq (new-object 'Version' 6,2)){
-
+    Windows8
 } elseif([Environment]::OSVersion.Version -eq (new-object 'Version' 6,3)){
-
+    Windows8_1
 }else{
     Windows10
 }
