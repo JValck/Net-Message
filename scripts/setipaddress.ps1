@@ -62,6 +62,7 @@ function Windows10(){
 }
 
 function Windows7(){
+    Write-Host("Detected Windows 7")
     if($language -eq "nl"){
         ChangeIP("LAN-verbinding")
     }elseif($language -eq "en"){
@@ -70,10 +71,12 @@ function Windows7(){
 }
 
 function Windows8(){
+    Write-Host("Detected Windows 8")
     Windows7
 }
 
 function Windows8_1(){
+    Write-Host("Detected Windows 8.1")
     Windows7
 }
 
@@ -94,11 +97,13 @@ $language = $language.Substring(0,2)
 
 
 Write-Host("Starting IP Configuration...")
-if([Environment]::OSVersion.Version -eq (new-object 'Version' 6,1)){
+
+$osVersion = [Environment]::OSVersion.Version
+if($osVersion -ge (new-object 'Version' 6,1) -and $osVersion -lt (new-object 'Version' 6,2)){
     Windows7
-} elseif ([Environment]::OSVersion.Version -eq (new-object 'Version' 6,2)){
+} elseif ($osVersion -ge (new-object 'Version' 6,2) -and $osVersion -lt (new-object 'Version' 6,3)){
     Windows8
-} elseif([Environment]::OSVersion.Version -eq (new-object 'Version' 6,3)){
+} elseif($osVersion -ge (new-object 'Version' 6,3) -and $osVersion -lt (new-object 'Version' 10)){
     Windows8_1
 }else{
     Windows10
