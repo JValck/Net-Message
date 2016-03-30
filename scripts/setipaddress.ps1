@@ -103,7 +103,7 @@ if($osVersion -ge (new-object 'Version' 6,1) -and $osVersion -lt (new-object 'Ve
     Windows7
 } elseif ($osVersion -ge (new-object 'Version' 6,2) -and $osVersion -lt (new-object 'Version' 6,3)){
     Windows8
-} elseif($osVersion -ge (new-object 'Version' 6,3) -and $osVersion -lt (new-object 'Version' 10)){
+} elseif($osVersion -ge (new-object 'Version' 6,3) -and $osVersion -lt (new-object 'Version' 10,0)){
     Windows8_1
 }else{
     Windows10
