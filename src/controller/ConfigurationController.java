@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 
 import network.configuration.EthernetInterfaceIPSetter;
+import network.configuration.LinuxEthenetInterfaceSetter;
 import network.configuration.WindowsEthernetInterfaceIPSetter;
 import domain.OSType;
 
@@ -20,7 +21,8 @@ public class ConfigurationController {
 			iSetter.setStaticIP();
 			break;
 		case LINUX:
-	
+			EthernetInterfaceIPSetter linux = new LinuxEthenetInterfaceSetter();
+			linux.setStaticIP();
 			break;
 		default:
 			//TODO: mac
