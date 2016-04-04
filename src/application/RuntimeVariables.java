@@ -7,7 +7,7 @@ public class RuntimeVariables {
 	private static Map<Variable ,Object> variables = new HashMap<>();
 	
 	public enum Variable{
-		INTERFACE_NAME, MAIN_CONTROLLER, NETWORK_CONTROLLER, RECEIVING_IP_ADDRESS, RECEIVED_MESSAGE, CONFIGURATION_CONTROLLER;
+		INTERFACE_NAME, MAIN_CONTROLLER, NETWORK_CONTROLLER, RECEIVING_IP_ADDRESS, RECEIVED_MESSAGE, CONFIGURATION_CONTROLLER, SCRIPTS_FOLDER;
 	}
 	
 	public static void saveVariable(Variable variable, Object value) {
@@ -16,5 +16,9 @@ public class RuntimeVariables {
 	
 	public static Object getVariable(Variable variable){
 		return variables.get(variable);
+	}
+	
+	public static boolean isRunningFromJar(){
+		return RuntimeVariables.class.getResource("/icon.png").toString().contains("rsrc:");
 	}
 }
