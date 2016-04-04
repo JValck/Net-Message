@@ -4,11 +4,13 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
+import application.Launcher;
+
 public class LinuxEthenetInterfaceSetter implements EthernetInterfaceIPSetter {
 
 	@Override
 	public void setStaticIP() throws IOException, InterruptedException {
-		String path = getClass().getResource("/setIpAddress.pl").toString().replace("file:/", "");		
+		String path = Launcher.class.getResource("/setIpAddress.pl").toString().replace("file:/", "");		
 		Process p = Runtime.getRuntime().exec(new String[] {"perl", path});
 		p.waitFor();
 	}

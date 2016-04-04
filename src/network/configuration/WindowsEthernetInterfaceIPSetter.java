@@ -2,13 +2,16 @@ package network.configuration;
 
 import java.io.IOException;
 
+import application.Launcher;
+
 public class WindowsEthernetInterfaceIPSetter implements
 EthernetInterfaceIPSetter {
 
 	@Override
 	public void setStaticIP() throws IOException, InterruptedException {
 		//remove the /scripts prefix, as this part will be ignored in the jar
-		String path = getClass().getResource("/toStatic.bat").toString().replace("file:/", "");		
+		String path = Launcher.class.getResource("/toStatic.bat").toString().replace("file:/", "");	
+		System.out.println(path);
 		Process p = Runtime.getRuntime().exec(new String[] {"cmd.exe", "/c", path});
 		p.waitFor();
 		/*BufferedReader stdInput = new BufferedReader(new 
