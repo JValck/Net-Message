@@ -1,8 +1,12 @@
 package view;
 
-import javax.swing.ImageIcon;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 
 /**
  * Root window for all the applications subviews
@@ -10,12 +14,12 @@ import javax.swing.JPanel;
 public class RootWindow implements Viewable{
 	private JFrame window;
 	
-	public RootWindow(){
+	public RootWindow() throws IOException{
 		window = new JFrame();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setSize(800, 600);		
-		ImageIcon icon = new ImageIcon(getClass().getResource("/icon.png").getPath());
-		window.setIconImage(icon.getImage());
+		BufferedImage icon = ImageIO.read(getClass().getResourceAsStream("/icon.png"));
+		window.setIconImage(icon);
 	}
 
 	public JFrame getWindow() {

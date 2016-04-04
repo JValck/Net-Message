@@ -26,7 +26,7 @@ public class MainController {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 	}
 
-	public void run() throws SocketException {
+	public void run() throws IOException {
 		rootWindow = new RootWindow();
 		interfaceOverview();
 	}
