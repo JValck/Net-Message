@@ -10,6 +10,9 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 
+import controller.ConfigurationController;
+import domain.OSType;
+
 public class NetworkInterfaces {
 	private Enumeration<NetworkInterface> netInterfaces;
 	private int numberOfInterfaces;
@@ -46,6 +49,20 @@ public class NetworkInterfaces {
 	}
 	
 	public boolean isReachable(String address) throws UnknownHostException, IOException, InterruptedException {
+		if(ConfigurationController.determineOs() == OSType.WINDOWS){
+			return pingWindows(address);
+		}else{
+			return pingLinux(address);
+		}		
+	}
+
+	private boolean pingLinux(String address) throws IOException, InterruptedException {
+		Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 5 "+address);
+		int returnVal = p1.waitFor();
+		return (returnVal==0);//will return 0 if ping success
+	}
+
+	private boolean pingWindows(String address) throws IOException, InterruptedException {
 		Process p1 = java.lang.Runtime.getRuntime().exec("ping "+address);
 		int returnVal = p1.waitFor();
 		return (returnVal==0);//will return 0 if ping success

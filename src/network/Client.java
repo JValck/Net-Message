@@ -15,7 +15,7 @@ public class Client {
 	private DataOutputStream dataOut;
 
 	public void createSocket() throws UnknownHostException, IOException {
-		socket = new Socket(InetAddress.getByName((String) RuntimeVariables.getVariable(Variable.RECEIVING_IP_ADDRESS)), 3333);
+		socket = new Socket(InetAddress.getByName((String) RuntimeVariables.getVariable(Variable.DESTINATION_ADDRESS)), 3333);
 		dataOut = new DataOutputStream(socket.getOutputStream());
 	}
 	
