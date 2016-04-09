@@ -34,14 +34,14 @@ public class SendMessageClickListener implements ActionListener {
 
 	private boolean validIpAddressKnown() {
 		boolean validIpAddress = true;
-		while(RuntimeVariables.getVariable(Variable.RECEIVING_IP_ADDRESS) == null){
+		while(RuntimeVariables.getVariable(Variable.DESTINATION_ADDRESS) == null){
 			validIpAddress = false;
 			String address = JOptionPane.showInputDialog(null, "Er is nog geen geldig bestemmingsadres opgegeven voor deze poort.\n"
 					+ "\nVul hieronder het IP-adres in van de bestemmeling.", "IP adres", JOptionPane.QUESTION_MESSAGE);
 			if(address == null) return false;
 			try {
 				if(address!=null && ((NetworkController) RuntimeVariables.getVariable(Variable.NETWORK_CONTROLLER)).isReachable(address)){
-					RuntimeVariables.saveVariable(Variable.RECEIVING_IP_ADDRESS, address);
+					RuntimeVariables.saveVariable(Variable.DESTINATION_ADDRESS, address);
 					validIpAddress = true;
 				}
 			} catch (IOException | InterruptedException e) {

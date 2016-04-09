@@ -16,6 +16,7 @@ public class BackButtonPressed implements ActionListener {
 		try {			
 			((MainController) RuntimeVariables.getVariable(Variable.MAIN_CONTROLLER)).interfaceOverview();
 			RuntimeVariables.saveVariable(Variable.RECEIVING_IP_ADDRESS, null);//reset receiving port
+			RuntimeVariables.saveVariable(Variable.DESTINATION_ADDRESS, null);//reset destination address
 		} catch (IOException e) {
 			Launcher.showErrorMessageDialog(e);
 			e.printStackTrace();

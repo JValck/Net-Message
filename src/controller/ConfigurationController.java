@@ -15,7 +15,11 @@ public class ConfigurationController {
 	 * @throws IOException 
 	 */
 	public void setStaticIPAddress() throws IOException, InterruptedException {
-		switch (determineOs()) {
+		/*
+		 * As each OS-type has a separate manner of configuring
+		 * the network interface, we have to determine the OS-type.
+		 */
+		switch (ConfigurationController.determineOs()) {
 		case WINDOWS:
 			EthernetInterfaceIPSetter iSetter = new WindowsEthernetInterfaceIPSetter();
 			iSetter.setStaticIP();
@@ -31,11 +35,10 @@ public class ConfigurationController {
 	}
 
 	/** 
-	 * As each OS-type has a separate manner of configuring
-	 * the network interface, we have to determine the OS-type.
+	 * Determine the type of the OS: Windows, Mac or Linux
 	 * @return The type of the OS.
 	 */
-	private OSType determineOs() {
+	public static OSType determineOs() {
 		String osName = System.getProperty("os.name");
 		if(osName.contains("Windows")){
 			return OSType.WINDOWS;
